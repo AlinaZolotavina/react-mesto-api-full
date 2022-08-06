@@ -1,0 +1,17 @@
+.login__form-input {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 0 5px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    border: none;
+    border-bottom: 2px solid #fff;
+    background-color: inherit;
+    color: #fff;
+  }
+  
+  .login__form-input:active, :focus, :hover {
+    outline: none;
+  }
+  

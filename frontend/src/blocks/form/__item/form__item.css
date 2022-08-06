@@ -1,0 +1,16 @@
+.form__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 35px;
+}
+
+.form__item:last-of-type {
+  margin: 0 0 48px;
+}
+
+@media screen and (max-width: 767px) {
+  .form__item:last-of-type {
+      margin: 0 0 45px;
+  }
+}
