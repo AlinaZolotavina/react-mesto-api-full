@@ -50,6 +50,7 @@ function App() {
 
   useEffect(() => {
     checkToken();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history.location]);
 
   function handleEditProfilePopupOpen() {
@@ -126,6 +127,14 @@ function App() {
     closeAllPopups();
   };
 
+  function checkToken() {
+    auth.getContent().then((res) => {
+      setUserEmail(res.data.email)
+      setLoggedIn(true);
+      history.push('/');
+    });      
+  }
+
   function handleRegister(email, password) {
     auth.register(email, password)
     .then((res) => {
@@ -146,29 +155,16 @@ function App() {
   function handleLogin(email, password) {
     auth.authorize(email, password)
     .then((data) => {
-      if(data.token) {
-        setLoggedIn(true);
-        setUserEmail(email);
-        history.push('/');
-        localStorage.setItem('jwt', data.token)
-      }
+      console.log(data);
+      setLoggedIn(true);
+      setUserEmail(email);
+      history.push('/');
     })
     .catch((err) => {
       console.log(err);
       setSuccess(false);
       setInfoToolTipOpen(true);
     });
-  }
-
-  function checkToken() {
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) {
-      auth.getContent(jwt).then((res) => {
-        setUserEmail(res.data.email)
-        setLoggedIn(true);
-        history.push('/');
-      });      
-    };
   }
 
   function handleLogout() {
@@ -201,20 +197,20 @@ function App() {
             loggedIn={loggedIn}
           />
           
-          <Route path="/sign-in">
+          <Route path="/signin">
             <Login 
               onLogin={handleLogin}
             />
           </Route>
 
-          <Route path="/sign-up">
+          <Route path="/signup">
             <Register 
               onRegister={handleRegister}
             />
           </Route>   
 
           <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in"/>}
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin"/>}
           </Route>
         </Switch>
 

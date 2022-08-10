@@ -1,7 +1,6 @@
 class Api {
   constructor(data) {
     this._serverUrl = data.serverUrl;
-    this._token = data.token;
   }
 
   _checkResponse(res) {
@@ -14,18 +13,16 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._serverUrl}cards`, {
-      headers: {
-        authorization: this._token
-      }
+      credentials: 'include',
     })
-    .then((res) => this._checkResponse(res));
+    .then(this._checkResponse);
   }
 
   addCard(data) {
     return fetch(`${this._serverUrl}cards`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -39,18 +36,14 @@ class Api {
   deleteCard(data) {
     return fetch(`${this._serverUrl}cards/${data}`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._token,
-      }
+      credentials: 'include',
     })
     .then((res) => this._checkResponse(res));
   }
 
   getUserData() {
     return fetch(`${this._serverUrl}users/me`, {
-      headers: {
-        authorization: this._token
-      }
+      credentials: 'include',
     })
     .then((res) => this._checkResponse(res));
   }
@@ -58,8 +51,8 @@ class Api {
   changeUserData(data) {
     return fetch(`${this._serverUrl}users/me`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -73,8 +66,8 @@ class Api {
   changeAvatar(data) {
     return fetch(`${this._serverUrl}users/me/avatar`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: {
-        authorization: this._token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -88,8 +81,8 @@ class Api {
     if (!isLiked) {
       return fetch(`${this._serverUrl}cards/${data}/likes`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
-          authorization: this._token,
           'Content-Type': 'application/json'
         }
       })
@@ -97,9 +90,7 @@ class Api {
     } else {
       return fetch(`${this._serverUrl}cards/${data}/likes`, {
         method: 'DELETE',
-        headers: {
-          authorization: this._token
-        }
+        credentials: 'include',
       })
       .then((res) => this._checkResponse(res));
     }
@@ -111,8 +102,7 @@ class Api {
 }
 
 const api = new Api({
-  serverUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/',
-  token: 'c4f5357d-335f-4f00-b321-6e024ea9f5d9',
+  serverUrl: 'https://api.mesto.students.nomoredomains.sbs/',
 });
 
 export default api;
