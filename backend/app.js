@@ -4,6 +4,8 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const { celebrate, errors, Joi } = require('celebrate');
+const cors = require('cors');
+const corsOptions = require('./utils/corsOptions');
 const router = require('./routes');
 const { login, createUser } = require('./controllers/users');
 const errorHandler = require('./middlewares/errorHandler');
@@ -22,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 });
+
+app.use(cors(corsOptions));
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
