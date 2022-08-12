@@ -48,7 +48,7 @@ const logout = (req, res, next) => {
           return next(new UnauthorizedError('Необходима авторизация'));
         }
         verifiedUser = decoded;
-        if (user._id !== verifiedUser._id) {
+        if (user._id.toHexString() !== verifiedUser._id) {
           return next(new UnauthorizedError('Необходима авторизация'));
         }
         return res
