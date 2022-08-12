@@ -7,7 +7,7 @@ const { celebrate, errors, Joi } = require('celebrate');
 const cors = require('cors');
 const corsOptions = require('./utils/corsOptions');
 const router = require('./routes');
-const { login, createUser } = require('./controllers/users');
+const { login, logout, createUser } = require('./controllers/users');
 const errorHandler = require('./middlewares/errorHandler');
 const { validateUrl } = require('./utils/validateUrl');
 const NotFoundError = require('./errors/not-found-err');
@@ -43,6 +43,8 @@ app.post('/signup', celebrate({
     avatar: Joi.string().custom(validateUrl, 'custom validation'),
   }),
 }), createUser);
+
+app.delete('/logout', logout);
 
 app.use(router);
 

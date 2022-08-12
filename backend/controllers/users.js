@@ -5,6 +5,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-err');
 const BadRequestError = require('../errors/bad-request-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -23,6 +24,42 @@ const login = (req, res, next) => {
           secure: true,
         })
         .send({ message: 'Вход выполнен' });
+    })
+    .catch(next);
+};
+
+const logout = (req, res, next) => {
+  const { email } = req.body;
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    return new UnauthorizedError('Что-то не так с токеном');
+  }
+
+  let verifiedUser;
+
+  return User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return next(new NotFoundError('Пользователь не найден'));
+      }
+      jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', (err, decoded) => {
+        if (err) {
+          return next(new UnauthorizedError('Необходима авторизация'));
+        }
+        verifiedUser = decoded;
+        if (user._id !== verifiedUser._id) {
+          return next(new UnauthorizedError('Необходима авторизация'));
+        }
+        return res
+          .clearCookie('jwt', {
+            httpOnly: true,
+            sameSite: 'none',
+            secure: true,
+          })
+          .send({ message: 'Вы вышли' });
+      });
+      return true;
     })
     .catch(next);
 };
@@ -111,6 +148,7 @@ const updateUserAvatar = (req, res, next) => {
 
 module.exports = {
   login,
+  logout,
   getUsers,
   getUserById,
   getMe,
