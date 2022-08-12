@@ -19,7 +19,7 @@ import InfoToolTip from './InfoToolTip';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [userEmail, setUserEmail] = useState('');
-  const [ loggedIn, setLoggedIn ] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const history = useHistory();
 
@@ -75,9 +75,9 @@ function App() {
     setSelectedCard(card);
   };
 
-  function handleCardLike(id, isLiked) {
-    api.changeLikeCardStatus(id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === id ? newCard : c));
+  function handleCardLike(card, isLiked) {
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
     .catch((err) => console.log(err));
   };
@@ -129,7 +129,8 @@ function App() {
 
   function checkToken() {
     auth.getContent().then((res) => {
-      setUserEmail(res.data.email)
+      const { email} = res;
+      setUserEmail(email);
       setLoggedIn(true);
       history.push('/');
     });      
@@ -141,7 +142,7 @@ function App() {
       if(res) {
         setSuccess(true);
         setInfoToolTipOpen(true);
-        history.push('/sign-in');
+        history.push('/signin');
       }
     })
     .catch((err) => {
@@ -155,7 +156,6 @@ function App() {
   function handleLogin(email, password) {
     auth.authorize(email, password)
     .then((data) => {
-      console.log(data);
       setLoggedIn(true);
       setUserEmail(email);
       history.push('/');
@@ -168,10 +168,17 @@ function App() {
   }
 
   function handleLogout() {
-    localStorage.removeItem('jwt');
-    history.push('/sign-in');
-    setLoggedIn(false);
-    setUserEmail('');
+    auth.logout(userEmail)
+    .then(() => {
+      setLoggedIn(false);
+      history.push('/signin');
+      setUserEmail('');
+    })
+    .catch((err) => {
+      console.log(err);
+      setSuccess(false);
+      setInfoToolTipOpen(true);
+    })
   }
 
   return (

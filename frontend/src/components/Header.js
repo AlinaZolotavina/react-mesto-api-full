@@ -13,16 +13,16 @@ function Header({ userEmail, onLogout }) {
         <p className="header__user-email">{userEmail}</p>
         <Link
           to={
-            location.pathname === '/sign-up' ? '/sign-in'
-            : location.pathname === '/sign-in' ? '/sign-up'
+            location.pathname === '/signup' ? '/sign-in'
+            : location.pathname === '/signin' ? '/sign-up'
             : '/sign-in'
           }
           className="header__link"
           onClick={location.pathname === '/' ? onLogout : () => {}}
         >
           {
-            location.pathname === "/sign-up" ? "Войти"
-            : location.pathname === "/sign-in" ? "Регистрация"
+            location.pathname === "/signup" ? "Войти"
+            : location.pathname === "/signin" ? "Регистрация"
             : 'Выйти'
           }
         </Link>

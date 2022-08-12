@@ -7,7 +7,7 @@ function DeleteCardPopup({ card, isOpen, onClose, onDeleteCard }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if(card.owner._id === currentUser._id) {
+    if(card.owner === currentUser._id) {
         onDeleteCard(card);
     } 
   };
