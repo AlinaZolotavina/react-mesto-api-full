@@ -102,6 +102,16 @@ function App() {
     setSelectedCard({});
   };
 
+  useEffect((e) => {
+    const handleEscClose = (e) => {
+      if (e.keyCode === 27) {
+        closeAllPopups();
+      }
+    }
+    window.addEventListener('keydown', handleEscClose);
+    return () => window.removeEventListener('keydown', handleEscClose);
+  }, []);
+
   function handleUpdateUser(data) {
     api.changeUserData(data)
     .then(data => {
