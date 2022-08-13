@@ -2,7 +2,7 @@ const corsOptions = {
   origin: [
     'https://mesto.students.nomoredomains.sbs',
     'http://mesto.students.nomoredomains.sbs',
-    'http://localhost:3000',
+    'localhost:3000',
   ],
   credentials: true,
 };
