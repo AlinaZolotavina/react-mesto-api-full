@@ -19,6 +19,7 @@ function DeleteCardPopup({ card, isOpen, onClose, onDeleteCard }) {
       formName="confirmForm"
       buttonText="Да"
       isOpen={isOpen}
+      isValid={true}
       onClose={onClose}
       onSubmit={handleSubmit}
     />          
