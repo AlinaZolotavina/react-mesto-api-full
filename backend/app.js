@@ -11,6 +11,7 @@ const { login, logout, createUser } = require('./controllers/users');
 const errorHandler = require('./middlewares/errorHandler');
 const { validateUrl } = require('./utils/validateUrl');
 const NotFoundError = require('./errors/not-found-err');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,6 +27,14 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(cors(corsOptions));
+
+app.use(requestLogger);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -51,6 +60,8 @@ app.use(router);
 app.use('*', (req, res) => {
   throw new NotFoundError('Запрашиваемый ресурс не найден');
 });
+
+app.use(errorLogger);
 
 app.use(errors());
 

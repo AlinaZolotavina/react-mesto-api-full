@@ -1,6 +1,6 @@
 {
-  "homepage": "https://alinazolotavina.github.io/react-mesto-auth/",
-  "name": "react-mesto-auth",
+  "homepage": "https://alinazolotavina.github.io/react-mesto-api-full/frontend",
+  "name": "react-mesto-api-full-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

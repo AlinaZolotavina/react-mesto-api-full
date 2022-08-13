@@ -49,9 +49,11 @@ function App() {
   },  [loggedIn]);
 
   useEffect(() => {
-    checkToken();
+    if (!loggedIn) {
+      checkToken();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history.location]);
+  }, []);
 
   function handleEditProfilePopupOpen() {
     setEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -133,6 +135,9 @@ function App() {
       setUserEmail(email);
       setLoggedIn(true);
       history.push('/');
+    })
+    .catch((err) => {
+      console.log(err);
     });      
   }
 

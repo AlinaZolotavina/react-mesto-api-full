@@ -13,9 +13,9 @@ function Header({ userEmail, onLogout }) {
         <p className="header__user-email">{userEmail}</p>
         <Link
           to={
-            location.pathname === '/signup' ? '/sign-in'
-            : location.pathname === '/signin' ? '/sign-up'
-            : '/sign-in'
+            location.pathname === '/signup' ? '/signin'
+            : location.pathname === '/signin' ? '/signup'
+            : '/signin'
           }
           className="header__link"
           onClick={location.pathname === '/' ? onLogout : () => {}}
