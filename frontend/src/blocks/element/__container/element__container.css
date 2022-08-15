@@ -1,7 +1,0 @@
-.element__container {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  justify-content: space-between;
-  padding: 25px 21px;
-}
