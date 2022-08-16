@@ -10,6 +10,9 @@ node_modules
 # Optional npm cache directory
 .npm
 
+# Token verification file
+test-jwt.js
+
 # Optional REPL history
 .DS_Store
 .idea
